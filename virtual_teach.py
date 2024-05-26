@@ -59,7 +59,7 @@ def file_processor():
     # st.session_state.grag.load_db(current_path)
     # print(st.session_state.grag.lines)
     st.session_state.sidebar_ = True
-    pre_notes_data = " ".join(st.session_state.grag.lines)
+    pre_notes_data = " ".join(st.session_state.lines)
     pre_notes_list = split_into_chunks(pre_notes_data)
 
     llm = llm_invoker()
@@ -162,6 +162,11 @@ def main():
         if notes_data != "":
             submit_placeholder.empty()
             st.session_state.grag.constructGraph(notes_data)
+            if "lines" not in st.session_state:
+                st.session_state.lines = []
+                for i in st.session_state.grag.documents:
+                    print(str(i))
+                    st.session_state.lines.append(str(i))
             file_processor()
 
         # if file is not None:
